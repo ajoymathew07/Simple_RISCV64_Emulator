@@ -1,4 +1,6 @@
 #include "../includes/dram.hpp"
+#include "bits/stdc++.h"
+using namespace std;
 
 #include<stdio.h>
 
@@ -10,6 +12,9 @@ uint64_t dram_load_16(DRAM* dram, uint64_t addr){
         |  (uint64_t) dram->mem[addr-DRAM_BASE + 1] << 8;
 }
 uint64_t dram_load_32(DRAM* dram, uint64_t addr){
+    // cout<<"Load address is: "<<addr<<endl;
+    // cout<<"Mem location is"<<addr - DRAM_BASE<<endl;
+    // cout<<"Mem size is " << DRAM_SIZE<<endl;
     return (uint64_t) dram->mem[addr-DRAM_BASE]
         |  (uint64_t) dram->mem[addr-DRAM_BASE + 1] << 8
         |  (uint64_t) dram->mem[addr-DRAM_BASE + 2] << 16 

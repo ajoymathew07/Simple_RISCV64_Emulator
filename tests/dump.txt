@@ -1,13 +1,51 @@
 
-test2.elf:     file format elf64-littleriscv
+trial.elf:     file format elf64-littleriscv
 
 
 Disassembly of section .text:
 
-0000000000010078 <_start>:
-   10078:	02a00513          	li	a0,42
-   1007c:	45a9                	li	a1,10
-   1007e:	00b50633          	add	a2,a0,a1
+0000000080000000 <_start>:
+    80000000:	00001517          	auipc	a0,0x1
+    80000004:	02850513          	addi	a0,a0,40 # 80001028 <__DATA_BEGIN__>
+    80000008:	00052283          	lw	t0,0(a0)
+    8000000c:	80418593          	addi	a1,gp,-2044 # 8000102c <value2>
+    80000010:	0005a303          	lw	t1,0(a1)
+    80000014:	006283b3          	add	t2,t0,t1
+    80000018:	80818613          	addi	a2,gp,-2040 # 80001030 <result>
+    8000001c:	00762023          	sw	t2,0(a2)
+    80000020:	00a00893          	li	a7,10
+    80000024:	00000073          	ecall
 
-0000000000010082 <loop>:
-   10082:	a001                	j	10082 <loop>
+Disassembly of section .data:
+
+0000000080001028 <__DATA_BEGIN__>:
+    80001028:	0005                	c.nop	1
+	...
+
+000000008000102c <value2>:
+    8000102c:	00000007          	0x7
+
+0000000080001030 <result>:
+    80001030:	0000                	unimp
+	...
+
+Disassembly of section .riscv.attributes:
+
+0000000000000000 <.riscv.attributes>:
+   0:	2d41                	addiw	s10,s10,16
+   2:	0000                	unimp
+   4:	7200                	ld	s0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	00000023          	sb	zero,0(zero) # 0 <_start-0x80000000>
+  10:	7205                	lui	tp,0xfffe1
+  12:	3676                	fld	fa2,376(sp)
+  14:	6934                	ld	a3,80(a0)
+  16:	7032                	0x7032
+  18:	5f30                	lw	a2,120(a4)
+  1a:	326d                	addiw	tp,tp,-5
+  1c:	3070                	fld	fa2,224(s0)
+  1e:	615f 7032 5f30      	0x5f307032615f
+  24:	3266                	fld	ft4,120(sp)
+  26:	3070                	fld	fa2,224(s0)
+  28:	645f 7032 0030      	0x307032645f

@@ -1,0 +1,11 @@
+{
+ "vim.useSystemClipboard": true,
+    "files.associations": {
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "chrono": "cpp"
+    },
+     "vim.leader": "<space>",
+ 
+}
+ 

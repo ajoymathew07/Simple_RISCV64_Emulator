@@ -62,4 +62,13 @@
         #define SRA     0x20
     #define OR      0x6
     #define AND     0x7
+    
+#define CSR 0x73
+    #define ECALLBREAK    0x00     // contains both ECALL and EBREAK
+    #define CSRRW   0x01
+    #define CSRRS   0x02
+    #define CSRRC   0x03
+    #define CSRRWI  0x05
+    #define CSRRSI  0x06
+    #define CSRRCI  0x07
 #endif

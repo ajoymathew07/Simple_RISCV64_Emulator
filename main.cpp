@@ -43,6 +43,39 @@ void read_file(CPU* cpu, char* filename){
     memcpy(cpu->bus.dram.mem, buffer, fileLen*sizeof(uint8_t));
     free(buffer);
 }
+uint64_t get_symbol_address(const char* elf_file, const char* symbol_name) {
+    std::string command = "riscv64-unknown-elf-nm ";
+    command += elf_file;
+    command += " | grep ' ";
+    command += symbol_name;
+    command += "'";
+
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) {
+        std::cerr << "Failed to run nm command.\n";
+        return 0;
+    }
+
+    char buffer[256];
+    std::string result;
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        result += buffer;
+    }
+    pclose(pipe);
+
+    if (result.empty()) {
+        std::cerr << "Symbol not found: " << symbol_name << std::endl;
+        return 0;
+    }
+
+    std::istringstream iss(result);
+    std::string addr_str;
+    iss >> addr_str;
+
+    uint64_t addr = std::stoull(addr_str, nullptr, 16);
+    return addr;
+}
+
 
 int main(int argc, char* argv[]){
     if (argc != 2) {
@@ -68,12 +101,13 @@ int main(int argc, char* argv[]){
 
         dump_registers(&cpu);
 
-        cout<<"YES"<<endl;
+        // cout<<"YES"<<endl;
+        cout<<"The pc is: "<<cpu.pc<<endl;
 
         if(cpu.pc == 0){
             break;
         }
-        cout<<"First iteration succesfull" <<endl;
+        // cout<<"First iteration succesfull" <<endl;
     }
     return 0;
 
